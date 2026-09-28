@@ -1,0 +1,39 @@
+# Agent Manifest — AgentRegistry entry point
+# This file is required for AgentRegistry auto-discovery (lazy-load architecture)
+
+id: "SVC-C2-125"
+name: "JAMemberInquiryIntakeAgent"
+namespace: "svc"
+version: "1.0.0"
+enabled: true
+category: "Cat 2"
+# Static generation contract. Omitted by legacy templates defaults to deterministic.
+# This AG drives Stage 2/3 through an injected BaseLLM (config["llm"] seam), so the
+# truthful declaration is llm — omitting it would record an LLM template as deterministic.
+generation_mode: "llm"  # deterministic | llm
+industry: "SVC"
+
+# L1 base graph type (L1 direct inheritance; DocGenerationAgent pattern)
+base_type: "AgentBaseGraph"
+
+# Entry point — AgentRegistry expects one dotted module.Class path.
+class: "src.graph.graph.JAMemberInquiryIntakeAgent"
+
+# Security
+required_trust_level: "VERIFIED_EXTERNAL"
+
+# Declared dependencies (AgentRegistry reads this at deployment time).
+# requires.secrets = 「起動時に存在しなければ起動できない秘密」の宣言欄。
+# 本 AG は LLM を config["llm"] 注入シームで受け取り、未注入時は deterministic fallback に
+# 落ちて動作する（docs/02_design.md §16-2）ため、起動時に必須な秘密は無い。
+# ここに LLM_API_KEY を宣言すると鍵が provider に無い環境で起動自体が失敗し、
+# 宣言した fallback 経路を実行できなくなる（docs/02_design.md §11-1）。
+# KB/DB も持たないため DSN 系の宣言も無い（docs/02_design.md §8）。
+requires:
+  extras: []
+  secrets: []
+
+# NOTE: runtime-tunable parameters (max_retry / timeout_s / memory_enabled / hitl.* /
+# max_inquiry_chars / max_intents / routing_policy_path / seasonal_calendar_path)
+# live in config/config.yaml — putting them here misuses the manifest contract
+# and breaks manifest tooling. 設計値は docs/02_design.md §11 を参照。

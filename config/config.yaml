@@ -1,0 +1,18 @@
+max_retry: 3
+timeout_s: 45
+memory_enabled: false
+hitl:
+  enabled: false
+max_inquiry_chars: 4000
+business_timezone: "Asia/Tokyo"
+max_intents: 8
+max_facts_per_intent: 8
+max_questions_per_intent: 5
+min_span_chars: 2
+max_span_chars: 200
+max_question_chars: 120
+max_output_bytes: 65536
+routing_policy_path: "config/routing_policy.sample.yaml"
+seasonal_calendar_path: "config/seasonal_calendar.sample.yaml"
+llm_temperature: 0.0
+llm_max_tokens: 4096

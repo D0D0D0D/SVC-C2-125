@@ -1,0 +1,6 @@
+seasonal_calendar_version: "2026-summer"
+windows:
+  - name: "夏季防除期"
+    from: "06-01"
+    to: "09-15"
+    crops_in_critical_window: ["トマト", "きゅうり", "なす"]
